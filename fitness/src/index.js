@@ -11,11 +11,12 @@ import Error from './routes/error';
 import Workout from './routes/workout';
 import Data from './routes/data';
 import Food from './routes/food';
+import Auth from './routes/auth';
 
 const routes = createBrowserRouter([
   {
     path : '/',
-    element : <App></App>,
+    element : <App/>,
     errorElement : <Error/>,
     children : [
       {
@@ -34,11 +35,12 @@ const routes = createBrowserRouter([
         errorElement : <Error/>
       },
     ]
-  }
-
-
-
-
+  },
+  {
+    path : '/login',
+    element : <Auth/>,
+    errorElement : <Error/>
+  },
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
