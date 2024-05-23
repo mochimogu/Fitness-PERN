@@ -1,3 +1,5 @@
+const { text } = require('express');
+
 const Pool = require('pg').Pool;
 require('dotenv').config()
 
@@ -25,7 +27,29 @@ async function getAllData() {
     }
 }
 
+async function insertExercise(user, data) {
+    try {
+        const client = await pool.connect();
+
+        const insertCommand = {
+            text : 'INSERT INTO exercisedb(users, dates)',
+            values : []
+        }
+
+        const findCommand = ('SELECT * FROM exercisedb WHERE users = $1', [user]);
+
+        const reply = await client.query(findCommand);
+        console.log(reply.rows);
+
+        await client.release();
+        return 1;
+    } catch (error) {
+        console.log('inside db file');
+        console.log(error);
+    }
+}
 
 
 
-module.exports = { getAllData };
+
+module.exports = { getAllData, insertExercise};

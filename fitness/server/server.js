@@ -1,7 +1,7 @@
 const { response } = require('express');
 const express = require('express');
 const app = express();
-const { getAllData } = require('./db');
+const { getAllData, insertExercise } = require('./db');
 
 const PORT = process.env.PORT || 8080;
 
@@ -46,17 +46,17 @@ app.get("/api/getData", (request, response) => {
     response.send(testData);
 })
 //EXERCISE API
-app.post("/api/addExercise", (request, response) => {
+app.post("/api/addExercise", async (request, response) => {
 
     console.log(request.body);
-    testExercise.push(
-        {
-            'exercise' : request.body.exercise,
-            'sets' : request.body.sets,
-            'reps' : request.body.reps
-        }
-    )
-    response.status(201).send("success");
+    let exerciseData = {
+        'exercise' : request.body.workout.exercise,
+        'sets' : request.body.workout.sets,
+        'reps' : request.body.workout.reps
+    }
+    const results = await insertExercise(request.body.user, exerciseData);
+
+    response.status(201).json({'reply' : results});
 
 })
 

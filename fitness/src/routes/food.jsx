@@ -68,7 +68,7 @@ export default function Food() {
         const response = await fetch('/api/addFood', {
             method : "POST",
             headers : {'Content-type' : 'application/json'},
-            body : JSON.stringify({'food' : foodList})
+            body : JSON.stringify({'food' : foodList, 'user' : 'JohnDoe'})
         })
 
         if(response.ok) {

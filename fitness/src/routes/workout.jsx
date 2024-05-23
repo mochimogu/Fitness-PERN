@@ -13,9 +13,12 @@ export default function Workout() {
 
         if(exercise !== "" || sets !== 0 || reps !== 0) {
             const sending = {
-                'exercise' : exercise,
-                'sets' : sets,
-                'reps' : reps,
+                'workout' : {
+                    'exercise': exercise,
+                    'sets': sets,
+                    'reps': reps,
+                },
+                'user' : 'JohnDoe'
             }
     
             const response = await fetch('/api/addExercise', {
