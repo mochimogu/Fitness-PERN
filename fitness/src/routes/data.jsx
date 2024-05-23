@@ -1,13 +1,41 @@
 import { Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-
-
+import { useEffect, useState } from 'react';
 
 export default function Data() {
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
+    const [totalData, setTotalData] = useState([]);
+    let consumption = [0,0,0,0,0,0,0,0,0,0,0];
+
+    useEffect(() => {
+        async function getFoodData() {
+            const response = await fetch('/api/getFoodData');
+
+            if(response.ok) {
+                const results = await response.json();
+                setTotalData(results);
+            } else {
+                console.log(response.status + " STATUS CODE");
+            }
+        }
+        getFoodData();
+    },[])
+
+    function calculate() {
+        console.log(totalData);
+        for(let i = 0; i < totalData.length; i++) {
+            const data = Object.values(totalData[i]);
+            data.shift();
+            // console.log("SHIFT DATA" , data);
+            for(let j = 0; j < data.length; j++) {
+                consumption[j] += data[j];
+            }
+        }
+        return consumption;
+    }
+    
     const data = {
         labels: [
             "calories",
@@ -23,7 +51,7 @@ export default function Data() {
             ],
         datasets : [
             {
-                data: [1,2,1,2,3,1,4,5,6,7],
+                data: calculate(),
                 backgroundColor: [ 
                     'lightgreen',
                     'steelblue',
@@ -55,7 +83,7 @@ export default function Data() {
 
     return (
         <div>
-            <div className="container">
+            <div className="container mb-5">
                 <h1 className='pb-3 fs-3 text-center'>Overall Consumption</h1>
                 <div className='w-50 h-50 m-auto'>
                     <Doughnut 
