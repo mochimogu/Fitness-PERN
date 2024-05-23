@@ -1,11 +1,10 @@
 const Pool = require('pg').Pool;
 require('dotenv').config()
 
-const url = "postgres://exercisedb_user:TiLE0OIglY49EfCDSmDA4gQuxxlLE5su@dpg-cp7lvd63e1ms73an8dsg-a.oregon-postgres.render.com/exercisedb";
 
 const pool = new Pool({
     //THE CONNECTION STRING FROM THE EXTERNAL LINK IN RENDER.COM
-    connectionString : url,
+    connectionString : process.env.HOST,
     //THIS IS REQUIRE IF RENDER.COM ENFORECES SSL CONNECTIONS
     ssl: {
         rejectUnauthorized: false
