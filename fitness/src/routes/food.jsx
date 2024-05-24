@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-
+import { useOutletContext } from "react-router-dom";
 
 
 export default function Food() {
+
+    const info = useOutletContext();
 
     const [visible, setVisible] = useState(false);
     const [food, setFood] = useState("");
@@ -71,8 +73,8 @@ export default function Food() {
             body : JSON.stringify(
                 {
                     'food' : foodList, 
-                    'user' : 'JohnDoe', 
-                    'date' : '12/12/2002'
+                    'user' : info.username, 
+                    'date' : info.date
                 }
             )
         })
@@ -96,7 +98,7 @@ export default function Food() {
         const response = await fetch('/api/deleteFood', {
             method : "DELETE",
             headers : {'Content-type' : 'application/json'},
-            body : JSON.stringify({'id' : e, 'user' : 'JohnDoe', 'date' : '12/12/2002'})
+            body : JSON.stringify({'id' : e, 'user' : info.username, 'date' : info.date})
         })
 
         if(response.ok) {
@@ -117,16 +119,21 @@ export default function Food() {
             if(response.ok) {
                 const results = await response.json();
                 // console.log(results);
-                const userIndex = results.findIndex(item => item.users === 'JohnDoe');
+                const userIndex = results.findIndex(item => item.users === info.username);
                 if(userIndex === -1) {
-                    console.log('error');
+                    console.log('error - either not found or new user');
+                    setTableVisible(false);
+                } else {
+                    const dateIndex = results[userIndex].dates.findIndex(item => item.date === info.date);
+                    if(dateIndex === -1) {
+                        console.log('error - either not found or new date');
+                        setTableVisible(false);
+                    } else {
+                        addToTable(results[userIndex].dates[dateIndex].food);
+                        setTableVisible(true);
+                    }
                 }
-                const dateIndex = results[userIndex].dates.findIndex(item => item.date === "12/12/2002");
-                if(dateIndex === -1) {
-                    console.log('error');
-                }
-                addToTable(results[userIndex].dates[dateIndex].food);
-                setTableVisible(true);
+
             } else {
                 console.log(response.status + " STATUS CODE");
             }

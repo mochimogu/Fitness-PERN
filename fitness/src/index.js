@@ -11,7 +11,14 @@ import Error from './routes/error';
 import Workout from './routes/workout';
 import Data from './routes/data';
 import Food from './routes/food';
-import Auth from './routes/auth';
+import { Auth0Provider } from '@auth0/auth0-react';
+import LoginButton from './components/loginButton';
+
+//WILL NEED TO PUT INTO AN .ENV FILE
+const domain = "dev-41ntdpao6mtbxyd1.us.auth0.com";
+const clientId = "tztvJBVYM7wP1HLmvSB0xwnXzdC7SeAp";
+// const domain = process.env.REACT_APP_AUTH_DOMAIN;
+// const clientId = process.env.REACT_APP_AUTH_CLIENT_ID;
 
 const routes = createBrowserRouter([
   {
@@ -38,15 +45,25 @@ const routes = createBrowserRouter([
   },
   {
     path : '/login',
-    element : <Auth/>,
+    element : <LoginButton/>,
     errorElement : <Error/>
   },
 ])
 
+console.log(domain, clientId);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={routes}/>
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      authorizationParams={{
+        redirect_uri: window.location.origin
+      }}
+    >
+      <RouterProvider router={routes} />
+    </Auth0Provider>
   </React.StrictMode>
 );
 

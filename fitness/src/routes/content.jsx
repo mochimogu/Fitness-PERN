@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import Nav from "./nav";
 import { Outlet } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Content() {
+
+    const { user } = useAuth0();
 
     const [date, setCurrentDate] = useState(new Date())
     const [days, setDays] = useState(1);
@@ -30,6 +33,10 @@ export default function Content() {
     useEffect(() => {
         console.log(window.location.pathname);
         let path = window.location.pathname;
+        if(path === '/') {
+            window.location.pathname = '/workout';
+        }
+
         if(path === '/data') {
             setDataStatus(true);
         } else if (path === '/food') {
@@ -64,7 +71,7 @@ export default function Content() {
                 </div>
             </div>
             <div>
-                <Outlet context={date.toDateString()}/>
+                <Outlet context={{date : date.toDateString(), username : user.name}}/>
             </div>
         </div>
     )

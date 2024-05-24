@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Workout() {
 
-    const date = useOutletContext();
+    const info = useOutletContext();
 
     const [exercise, setExercise] = useState("");
     const [visible, setVisible] = useState(false);
@@ -21,8 +21,8 @@ export default function Workout() {
                     'sets': sets,
                     'reps': reps,
                 },
-                'user' : 'JohnDoe',
-                'date' : "12/12/2002"
+                'user' : info.username,
+                'date' : info.date
             }
     
             const response = await fetch('/api/addExercise', {
@@ -49,7 +49,7 @@ export default function Workout() {
         const response = await fetch("/api/deleteExercise", {
             method : "DELETE",
             headers : {"Content-type" : "application/json"},
-            body : JSON.stringify({id : e, user : 'JohnDoe', date : '12/12/2002'})
+            body : JSON.stringify({id : e, user : info.username, date : info.date})
         });
 
         if(response.ok) {

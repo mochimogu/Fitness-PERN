@@ -1,10 +1,14 @@
 import { Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useEffect, useState } from 'react';
+import { useOutletContext } from "react-router-dom";
+
 
 export default function Data() {
 
     ChartJS.register(ArcElement, Tooltip, Legend);
+    
+    const info = useOutletContext();
 
     const [totalData, setTotalData] = useState([]);
     let consumption = [0,0,0,0,0,0,0,0,0,0,0];
@@ -16,12 +20,12 @@ export default function Data() {
                 const results = await response.json();
                 // console.log(results.data)
                 const userIndex = results.data.findIndex(
-                    (item) => item.users === 'JohnDoe'
+                    (item) => item.users === info.username
                 );
                 if(userIndex === -1) {
                     console.log('error - unable to find');
                 }
-                const dateIndex = results.data[userIndex].dates.findIndex((item) => item.date === '12/12/2002');
+                const dateIndex = results.data[userIndex].dates.findIndex((item) => item.date === info.date);
                 if(dateIndex === -1) {
                     console.log('error - unable to find');
                 }
