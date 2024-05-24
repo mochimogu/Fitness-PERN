@@ -1,7 +1,13 @@
 const { response } = require('express');
 const express = require('express');
 const app = express();
-const { getAllData, insertExercise } = require('./db');
+const { 
+    getAllData, 
+    insertExercise, 
+    deleteExercise,
+    insertFood,
+    deleteFood
+} = require('./db');
 
 const PORT = process.env.PORT || 8080;
 
@@ -60,7 +66,7 @@ app.post("/api/addExercise", async (request, response) => {
     const results = await insertExercise(request.body.user, exerciseData);
     console.log(results);
     if(results === 0) {
-        response.status(201).json({'reply' : 'success'});
+        response.status(201).json({'reply' : 'success', 'workout' : exerciseData.workout});
     } else {
         response.status(400).json({'reply' : "error"});
     }
@@ -73,17 +79,16 @@ app.get("/api/getExercise", async (request, response) => {
     response.status(201).send(results);
 })
 
-app.delete("/api/deleteExercise", (request, response) => {
+app.delete("/api/deleteExercise", async (request, response) => {
 
-    for(let i = 0; i < testExercise.length; i++) {
-        if(testExercise[i].exercise === request.body.id) {
-            console.log("matches!")
-            testExercise.splice(i, 1);
-            break;
-        }
+    const data = {
+        date : request.body.date,
+        id : request.body.id
     }
-    console.log("AFTER DELETION : ", testExercise);
-    response.status(201).json({id : request.body.id});
+
+    const results = await deleteExercise(request.body.user, data);
+    console.log("AFTER DELETION : ", results);
+    response.status(201).json({id : results, exercise : request.body.id});
 })
 
 //FOOD API
@@ -93,27 +98,41 @@ app.get('/api/getFood', async (request, response) => {
     response.status(201).send(results);
 })
 
-app.post('/api/addFood', (request, response) => {
-    console.log(request.body.food)
-    testFood.push(request.body.food);
-    response.status(201).json({'sending' : "success", 'food' : testFood});
+app.post('/api/addFood', async (request, response) => {
+    // console.log(request.body)
+    const data = {
+        food : request.body.food,
+        date : request.body.date
+    }
+    const results = await insertFood(request.body.user, data)
+    if(results === 0) {
+        response.status(201).json({'sending' : "success", 'food' : request.body.food});
+    } else {
+        response.status(400).json({'sending' : "error"});
+    }
 })
 
-app.delete('/api/deleteFood', (request, response) => {
-    console.log(request.body.id)
-    for(let i = 0; i < testFood.length; i++) {
-        if(testFood[i].name === request.body.id) {
-            console.log("matches!")
-            testFood.splice(i, 1);
-            break;
-        }
+app.delete('/api/deleteFood', async (request, response) => {
+
+    const data = {
+        id : request.body.id,
+        date : request.body.date
     }
-    response.status(201).json({id : request.body.id});
+    const results = await deleteFood(request.body.user, data);
+    console.log(results);
+    if(results === 0) {
+        response.status(201).json({reply : 'success', id : request.body.id});
+    } else {
+        response.status(201).json({reply : 'error'});
+    }
 })
 
 //DATA API
-app.get('/api/getFoodData', (request, response) => {
-    response.status(200).send(testFood);
+app.get('/api/getFoodData', async (request, response) => {
+
+    const results = await getAllData();
+    // console.log(results[0].dates[0].food);
+    response.status(200).json({reply : 'success', data : results});
 })
 
 

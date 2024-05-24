@@ -63,25 +63,25 @@ export default function Food() {
 
     async function add() {
         setFood("");
-        let protein = 0;
-        let calories = 0;
+        // let protein = 0;
+        // let calories = 0;
         const response = await fetch('/api/addFood', {
             method : "POST",
             headers : {'Content-type' : 'application/json'},
-            body : JSON.stringify({'food' : foodList, 'user' : 'JohnDoe'})
+            body : JSON.stringify(
+                {
+                    'food' : foodList, 
+                    'user' : 'JohnDoe', 
+                    'date' : '12/12/2002'
+                }
+            )
         })
 
         if(response.ok) {
             const results = await response.json();
-            console.log(results.food[0]);
-            addToTable(results.food);
+            console.log(results.food);
+            addToTable(old => [...old , results.food]);
             // console.log(table);
-            for(let i = 0; i < results.length; i++) {
-                protein += results.food[i].protein_g;
-                calories += results.food[i].calories;
-                setProtein(protein);
-                setCalories(calories);
-            }
             removeSearch();
             setVisible(false);
 
@@ -96,7 +96,7 @@ export default function Food() {
         const response = await fetch('/api/deleteFood', {
             method : "DELETE",
             headers : {'Content-type' : 'application/json'},
-            body : JSON.stringify({'id' : e})
+            body : JSON.stringify({'id' : e, 'user' : 'JohnDoe', 'date' : '12/12/2002'})
         })
 
         if(response.ok) {
@@ -111,20 +111,22 @@ export default function Food() {
 
     useEffect(() => {
         async function getFood() {
-            let protein = 0;
-            let calories = 0;
+            // let protein = 0;
+            // let calories = 0;
             const response = await fetch('/api/getFood');
             if(response.ok) {
                 const results = await response.json();
-                // console.log(results[1].dates[0].food[0].protein_g);
-                addToTable(results[1].dates[0].food);
-                setTableVisible(true);
-                for(let i = 0; i < results[1].dates[0].food.length; i++) {
-                    protein += results[1].dates[0].food[i].protein_g;
-                    calories += results[1].dates[0].food[i].calories;
-                    setProtein(protein);
-                    setCalories(calories);
+                // console.log(results);
+                const userIndex = results.findIndex(item => item.users === 'JohnDoe');
+                if(userIndex === -1) {
+                    console.log('error');
                 }
+                const dateIndex = results[userIndex].dates.findIndex(item => item.date === "12/12/2002");
+                if(dateIndex === -1) {
+                    console.log('error');
+                }
+                addToTable(results[userIndex].dates[dateIndex].food);
+                setTableVisible(true);
             } else {
                 console.log(response.status + " STATUS CODE");
             }

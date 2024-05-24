@@ -12,10 +12,22 @@ export default function Data() {
     useEffect(() => {
         async function getFoodData() {
             const response = await fetch('/api/getFoodData');
-
             if(response.ok) {
                 const results = await response.json();
-                setTotalData(results);
+                // console.log(results.data)
+                const userIndex = results.data.findIndex(
+                    (item) => item.users === 'JohnDoe'
+                );
+                if(userIndex === -1) {
+                    console.log('error - unable to find');
+                }
+                const dateIndex = results.data[userIndex].dates.findIndex((item) => item.date === '12/12/2002');
+                if(dateIndex === -1) {
+                    console.log('error - unable to find');
+                }
+
+                console.log(results.data[userIndex].dates[dateIndex].food);
+                setTotalData(results.data[userIndex].dates[dateIndex].food);
             } else {
                 console.log(response.status + " STATUS CODE");
             }
@@ -24,9 +36,10 @@ export default function Data() {
     },[])
 
     function calculate() {
-        console.log(totalData);
+        // console.log(totalData);
         for(let i = 0; i < totalData.length; i++) {
             const data = Object.values(totalData[i]);
+            // console.log(data);
             data.shift();
             // console.log("SHIFT DATA" , data);
             for(let j = 0; j < data.length; j++) {
@@ -38,16 +51,16 @@ export default function Data() {
     
     const data = {
         labels: [
-            "calories",
-            "carbohydrates",
-            "cholesterol",
-            "fat saturated",
-            "total fat",
             "fiber",
-            "potassium",
+            "sugar",
+            "calories",
             "protein",
             "sodium",
-            "sugar"
+            "total fat",
+            "potassium",
+            "cholesterol",
+            "fat saturated",
+            "carbohydrates",
             ],
         datasets : [
             {
@@ -55,7 +68,7 @@ export default function Data() {
                 backgroundColor: [ 
                     'lightgreen',
                     'steelblue',
-                    'lightcyan',
+                    'pink',
                     'orange',
                     'beige',
                     'salmon',
@@ -67,7 +80,7 @@ export default function Data() {
                   borderColor: [
                     'lightgreen',
                     'steelblue',
-                    'lightcyan',
+                    'pink',
                     'orange',
                     'beige',
                     'salmon',

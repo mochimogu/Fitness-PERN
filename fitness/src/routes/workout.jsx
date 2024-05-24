@@ -33,8 +33,9 @@ export default function Workout() {
     
             if(response.ok) {
                 // renderExercise();
+                const results = await response.json();
                 console.log(await response.status);
-                addToList(old => [...old, sending])
+                addToList(old => [...old, results.workout])
             } else {
                 console.log(response.status + " STATUS CODE");
             }
@@ -48,13 +49,13 @@ export default function Workout() {
         const response = await fetch("/api/deleteExercise", {
             method : "DELETE",
             headers : {"Content-type" : "application/json"},
-            body : JSON.stringify({id : e})
+            body : JSON.stringify({id : e, user : 'JohnDoe', date : '12/12/2002'})
         });
 
         if(response.ok) {
             const results = await response.json();
-            // console.log(results);
-            const updatedExerciseList = exerciseList.filter(items => items.exercise !== results.id);
+            console.log(results);
+            const updatedExerciseList = exerciseList.filter(items => items.exercise !== results.exercise);
             addToList(updatedExerciseList);
         } else {
             console.log(response.status + " STATUS CODE");
