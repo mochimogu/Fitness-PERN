@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function Workout() {
+
+    const date = useOutletContext();
 
     const [exercise, setExercise] = useState("");
     const [visible, setVisible] = useState(false);
@@ -18,7 +21,8 @@ export default function Workout() {
                     'sets': sets,
                     'reps': reps,
                 },
-                'user' : 'JohnDoe'
+                'user' : 'JohnDoe',
+                'date' : "12/12/2002"
             }
     
             const response = await fetch('/api/addExercise', {
@@ -70,9 +74,9 @@ export default function Workout() {
 
             if(response.ok) {
                 const results = await response.json();
-                // console.log(results[1].dates[0].workout);
+                console.log(results[0].dates[0].workout);
                 setVisible(true);
-                addToList(results[1].dates[0].workout);
+                addToList(results[0].dates[0].workout);
             } else {
                 console.log(response.status + " STATUS CODE");
                 setVisible(false);

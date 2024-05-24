@@ -50,13 +50,20 @@ app.post("/api/addExercise", async (request, response) => {
 
     console.log(request.body);
     let exerciseData = {
-        'exercise' : request.body.workout.exercise,
-        'sets' : request.body.workout.sets,
-        'reps' : request.body.workout.reps
+        'date' : request.body.date,
+        'workout' : {
+            'exercise' : request.body.workout.exercise,
+            'sets' : request.body.workout.sets,
+            'reps' : request.body.workout.reps
+        }
     }
     const results = await insertExercise(request.body.user, exerciseData);
-
-    response.status(201).json({'reply' : results});
+    console.log(results);
+    if(results === 0) {
+        response.status(201).json({'reply' : 'success'});
+    } else {
+        response.status(400).json({'reply' : "error"});
+    }
 
 })
 

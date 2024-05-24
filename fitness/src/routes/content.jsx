@@ -50,21 +50,21 @@ export default function Content() {
                     <button type="button" className="btn fs-1" onClick={tomorrow}>&#8658;</button>
                 </div>
                 <div className="d-flex justified-content-center m-auto m-100 mt-3 mb-4">
-                    <ul class="nav nav-underline">
-                        <li class="nav-item">
-                            <a class={`nav-link ${workout ? "active" : ""}`} aria-current="page" href="/workout">Workout</a>
+                    <ul className="nav nav-underline">
+                        <li className="nav-item">
+                            <a className={`nav-link ${workout ? "active" : ""}`} aria-current="page" href="/workout">Workout</a>
                         </li>
-                        <li class="nav-item">
-                            <a class={`nav-link ${food ? "active" : ""}`} aria-current="page" href="/food">Diet</a>
+                        <li className="nav-item">
+                            <a className={`nav-link ${food ? "active" : ""}`} aria-current="page" href="/food">Diet</a>
                         </li>
-                        <li class="nav-item">
-                            <a class={`nav-link ${data ? "active" : ""}`} aria-current="page" href="/data">Data</a>
+                        <li className="nav-item">
+                            <a className={`nav-link ${data ? "active" : ""}`} aria-current="page" href="/data">Data</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div>
-                <Outlet/>
+                <Outlet context={date.toDateString()}/>
             </div>
         </div>
     )

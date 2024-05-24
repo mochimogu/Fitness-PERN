@@ -30,19 +30,60 @@ async function getAllData() {
 async function insertExercise(user, data) {
     try {
         const client = await pool.connect();
+        // console.log(data);
 
-        const insertCommand = {
-            text : 'INSERT INTO exercisedb(users, dates)',
-            values : []
+        const reply = await client.query("SELECT * FROM exercisedb");
+        const userIndex = reply.rows.findIndex(items => items.users === user);
+        //CHECK IF THE USER IS BRAND NEW
+        if(userIndex !== -1) {
+
+            const dateIndex = reply.rows[userIndex].dates.findIndex(items => items.date === data.date);
+            //USER EXISTED BUT THE DATE IS NOT POPULATED
+            if(dateIndex !== -1) {
+                reply.rows[userIndex].dates[dateIndex].workout.push(data.workout);
+                // console.log(reply.rows[userIndex].dates[dateIndex].workout);
+                const insertCommand = {
+                    text: "UPDATE exercisedb SET dates = $1 WHERE users = $2",
+                    values : [JSON.stringify(reply.rows[userIndex].dates), user]
+                }
+
+                await client.query(insertCommand);
+                await client.release();
+                return 0;
+
+            } else {
+                const newDate = {
+                    date : data.date,
+                    food : [],
+                    workout : [data.workout],
+                };
+                reply.rows[userIndex].dates.push(newDate);
+                const insertCommand = {
+                    text: "UPDATE exercisedb SET dates = $1 WHERE users = $2",
+                    values : [JSON.stringify(reply.rows[userIndex].dates), user]
+                }
+
+                await client.query(insertCommand);
+                await client.release();
+                return 0;
+            }
+        } else {
+            const newUserDates = [
+                {
+                    date: data.date,
+                    food: [],
+                    workout: data.workout,
+                },
+            ]
+            const insertCommand = {
+                text : "INSERT INTO exercisedb (users, dates) VALUES($1, $2)",
+                values : [user, newUserDates]
+            }
+            await client.query(insertCommand);
+            await client.release();
+            return 0;
         }
 
-        const findCommand = ('SELECT * FROM exercisedb WHERE users = $1', [user]);
-
-        const reply = await client.query(findCommand);
-        console.log(reply.rows);
-
-        await client.release();
-        return 1;
     } catch (error) {
         console.log('inside db file');
         console.log(error);
