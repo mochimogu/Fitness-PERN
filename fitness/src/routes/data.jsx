@@ -11,6 +11,8 @@ export default function Data() {
     const info = useOutletContext();
 
     const [totalData, setTotalData] = useState([]);
+    const [visible, setVisible] = useState(false);
+
     let consumption = [0,0,0,0,0,0,0,0,0,0,0];
 
     useEffect(() => {
@@ -24,20 +26,27 @@ export default function Data() {
                 );
                 if(userIndex === -1) {
                     console.log('error - unable to find');
+                    setVisible(false);
                 }
                 const dateIndex = results.data[userIndex].dates.findIndex((item) => item.date === info.date);
                 if(dateIndex === -1) {
                     console.log('error - unable to find');
+                    setVisible(false);
                 }
 
-                console.log(results.data[userIndex].dates[dateIndex].food);
-                setTotalData(results.data[userIndex].dates[dateIndex].food);
+                // console.log(results.data[userIndex].dates[dateIndex].food);
+                if(dateIndex !== -1 && userIndex !== -1) {
+                    setTotalData(results.data[userIndex].dates[dateIndex].food);
+                    setVisible(true);
+                }
+
             } else {
                 console.log(response.status + " STATUS CODE");
+                setVisible(false);
             }
         }
         getFoodData();
-    },[])
+    },[info.date, info.username])
 
     function calculate() {
         // console.log(totalData);
@@ -102,11 +111,27 @@ export default function Data() {
         <div>
             <div className="container mb-5">
                 <h1 className='pb-3 fs-3 text-center'>Overall Consumption</h1>
-                <div className='w-50 h-50 m-auto'>
-                    <Doughnut 
-                    data={data}
-                    className='p-1'
-                    />
+                <div className='w-100'>
+                    {
+                        visible ? 
+                        <div className='d-flex justify-content-between w-100 h-50'>
+                            <Doughnut
+                                data={data}
+                                className='p-1 w-50 h-50'
+                            /> 
+                            <div className='w-50 h-50'>
+                                <ul className="list-group list-group-numbered">
+                                    {
+                                        totalData.map((datum) => (
+                                            <li key={datum.name} className="list-group-item">{datum.name}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        :
+                        <div></div>
+                    }
                 </div>
             </div>
         </div>

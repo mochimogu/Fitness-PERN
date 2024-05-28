@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Nav from "./nav";
 import { Outlet } from "react-router-dom"
 import { useAuth0 } from "@auth0/auth0-react";
+import images from '../images/16.jpg'
 
 export default function Content() {
 
@@ -48,7 +49,7 @@ export default function Content() {
 
     
     return (
-        <div>
+        <div style={{backgroundImage: `url(${images})`, backgroundSize: 'cover', height: "100vh"}}>
             <Nav></Nav>
             <div className="nav flex-column">
                 <div className="d-flex justified-content-center flex-row m-auto w-25">

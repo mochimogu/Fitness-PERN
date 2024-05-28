@@ -17,8 +17,7 @@ import LoginButton from './components/loginButton';
 //WILL NEED TO PUT INTO AN .ENV FILE
 const domain = "dev-41ntdpao6mtbxyd1.us.auth0.com";
 const clientId = "tztvJBVYM7wP1HLmvSB0xwnXzdC7SeAp";
-// const domain = process.env.REACT_APP_AUTH_DOMAIN;
-// const clientId = process.env.REACT_APP_AUTH_CLIENT_ID;
+
 
 const routes = createBrowserRouter([
   {

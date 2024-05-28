@@ -65,8 +65,8 @@ export default function Food() {
 
     async function add() {
         setFood("");
-        // let protein = 0;
-        // let calories = 0;
+        let protein = 0;
+        let calories = 0;
         const response = await fetch('/api/addFood', {
             method : "POST",
             headers : {'Content-type' : 'application/json'},
@@ -83,7 +83,10 @@ export default function Food() {
             const results = await response.json();
             console.log(results.food);
             addToTable(old => [...old , results.food]);
-            // console.log(table);
+            protein += totalPro + results.food.protein_g;
+            calories += totalCal + results.food.calories;
+            setProtein(Math.round(protein));
+            setCalories(Math.round(calories));
             removeSearch();
             setVisible(false);
 
@@ -113,8 +116,8 @@ export default function Food() {
 
     useEffect(() => {
         async function getFood() {
-            // let protein = 0;
-            // let calories = 0;
+            let protein = 0;
+            let calories = 0;
             const response = await fetch('/api/getFood');
             if(response.ok) {
                 const results = await response.json();
@@ -129,7 +132,12 @@ export default function Food() {
                         console.log('error - either not found or new date');
                         setTableVisible(false);
                     } else {
+                        console.log(results[userIndex].dates[dateIndex].food);
                         addToTable(results[userIndex].dates[dateIndex].food);
+                        results[userIndex].dates[dateIndex].food.forEach((items) => protein += totalPro + items.protein_g);
+                        results[userIndex].dates[dateIndex].food.forEach((items) => calories += totalCal + items.calories);
+                        setProtein(Math.round(protein));
+                        setCalories(Math.round(calories));
                         setTableVisible(true);
                     }
                 }
@@ -139,22 +147,22 @@ export default function Food() {
             }
         }
         getFood();
-    },[]);
+    },[info.username, info.date]);
 
     return (
         <div className="container">
             <div className="">
                 <div className="w-75 m-auto">
                     <h3>Diet</h3>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Food</span>
-                        <input type="text" class="form-control" aria-label="Sizing example input"
+                    <div className="input-group mb-3">
+                        <span className="input-group-text" id="inputGroup-sizing-default">Food</span>
+                        <input type="text" className="form-control" aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-default"
                             placeholder="searching food"
                             onChange={e => searching(e.target.value)}
                             value={food}
                         />
-                        <button class="btn btn-outline-primary" type="button" id="button-addon2" onClick={searchFood}>Search</button>
+                        <button className="btn btn-outline-primary" type="button" id="button-addon2" onClick={searchFood}>Search</button>
                     </div>
                     {
                         visible ? 
@@ -176,7 +184,7 @@ export default function Food() {
                 </div>
                 <div className="w-75 m-auto p-3 mb-3 mt-3 shadow bg-body-tertiary rounded d-flex flex-column justify-content-between">
                     <div>
-                        <table class="table">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Food</th>
@@ -199,17 +207,23 @@ export default function Food() {
                                         :
                                         <tr></tr>
                                 }
-                                <tr>
-                                    <td>Total</td>
-                                    <td>{totalCal}</td>
-                                    <td>{totalPro}</td>
-                                    <td></td>
-                                </tr>
+                                {
+                                    tabelVisible ?
+                                        <tr>
+                                            <td>Total</td>
+                                            <td>{totalCal} grams</td>
+                                            <td>{totalPro} grams</td>
+                                            <td></td>
+                                        </tr> :
+                                        <tr>
+                                            <td>Total</td>
+                                            <td>{0} grams</td>
+                                            <td>{0} grams</td>
+                                            <td></td>
+                                        </tr>
+                                }
                             </tbody>
                         </table>
-                        <div className="d-flex flex-row-reverse mb-2">
-                            <button type="button" className="btn btn-primary fs-6 ">Save</button>
-                        </div>
                     </div>
                 </div>
             </div>

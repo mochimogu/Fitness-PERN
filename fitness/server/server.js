@@ -18,7 +18,7 @@ app.use(express.json());
 //EXERCISE API
 app.post("/api/addExercise", async (request, response) => {
 
-    console.log(request.body);
+    // console.log(request.body);
     let exerciseData = {
         'date' : request.body.date,
         'workout' : {
@@ -28,7 +28,7 @@ app.post("/api/addExercise", async (request, response) => {
         }
     }
     const results = await insertExercise(request.body.user, exerciseData);
-    console.log(results);
+    // console.log(results);
     if(results === 0) {
         response.status(201).json({'reply' : 'success', 'workout' : exerciseData.workout});
     } else {

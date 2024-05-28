@@ -1,5 +1,3 @@
-const { text } = require('express');
-
 const Pool = require('pg').Pool;
 require('dotenv').config()
 
@@ -34,6 +32,7 @@ async function insertExercise(user, data) {
 
         const reply = await client.query("SELECT * FROM exercisedb");
         const userIndex = reply.rows.findIndex(items => items.users === user);
+        console.log(userIndex);
         //CHECK IF THE USER IS BRAND NEW
         if(userIndex !== -1) {
 
@@ -74,13 +73,14 @@ async function insertExercise(user, data) {
                     food: [],
                     workout: [data.workout],
                 },
-            ]
+            ];
             const insertCommand = {
                 text : "INSERT INTO exercisedb (users, dates) VALUES($1, $2)",
-                values : [user, newUserDates]
+                values : [user, JSON.stringify(newUserDates)]
             }
             await client.query(insertCommand);
             await client.release();
+
             return 0;
         }
 

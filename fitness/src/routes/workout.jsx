@@ -34,8 +34,11 @@ export default function Workout() {
             if(response.ok) {
                 // renderExercise();
                 const results = await response.json();
-                console.log(await response.status);
-                addToList(old => [...old, results.workout])
+                if(exerciseList.length !== 0) {
+                    addToList(old => [...old, results.workout])
+                } else {
+                    addToList([results.workout])
+                }
             } else {
                 console.log(response.status + " STATUS CODE");
             }
@@ -75,16 +78,29 @@ export default function Workout() {
 
             if(response.ok) {
                 const results = await response.json();
-                console.log(results[0].dates[0].workout);
-                setVisible(true);
-                addToList(results[0].dates[0].workout);
+                console.log(results);
+                const userIndex = results.findIndex(item => item.users === info.username);
+                if(userIndex !== -1) {
+                    const dateIndex = results[userIndex].dates.findIndex(item => item.date === info.date);
+
+                    if(dateIndex !== -1) {
+                        addToList(results[userIndex].dates[dateIndex].workout);
+                        setVisible(true);
+                    } else {
+                        console.log("ERROR - date not found");
+                        setVisible(false);
+                    }
+                } else {
+                    console.log("ERROR - user not found");
+                    setVisible(false);
+                }
             } else {
                 console.log(response.status + " STATUS CODE");
                 setVisible(false);
             }
         }
         getData();
-    }, [])
+    }, [info.date, info.username])
 
     
     return (
@@ -130,12 +146,9 @@ export default function Workout() {
                                     </li>
                                 ))
                                 :
-                                <li></li>
+                                <div></div>
                         }
                     </ul>
-                    <div className="d-flex flex-row-reverse mt-3">
-                        <button type="button" className="btn btn-primary fs-6 ">Save</button>
-                    </div>
                 </div>
             </div>
     </div>
