@@ -13,11 +13,12 @@ import Data from './routes/data';
 import Food from './routes/food';
 import { Auth0Provider } from '@auth0/auth0-react';
 import LoginButton from './components/loginButton';
-
 //WILL NEED TO PUT INTO AN .ENV FILE
 const domain = "dev-41ntdpao6mtbxyd1.us.auth0.com";
 const clientId = "tztvJBVYM7wP1HLmvSB0xwnXzdC7SeAp";
-
+console.log(process.env.REACT_APP_AUTH_DOMAIN);
+// const domain = process.env.REACT_APP_AUTH_DOMAIN;
+// const clientId = process.env.REACT_APP_AUTH_CLIENT_ID;
 
 const routes = createBrowserRouter([
   {
@@ -49,7 +50,7 @@ const routes = createBrowserRouter([
   },
 ])
 
-console.log(domain, clientId);
+// console.log(domain, clientId);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

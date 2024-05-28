@@ -210,13 +210,13 @@ export default function Food() {
                                 {
                                     tabelVisible ?
                                         <tr>
-                                            <td>Total</td>
+                                            <td><strong>Total</strong></td>
                                             <td>{totalCal} grams</td>
                                             <td>{totalPro} grams</td>
                                             <td></td>
                                         </tr> :
                                         <tr>
-                                            <td>Total</td>
+                                            <td><strong>Total</strong></td>
                                             <td>{0} grams</td>
                                             <td>{0} grams</td>
                                             <td></td>

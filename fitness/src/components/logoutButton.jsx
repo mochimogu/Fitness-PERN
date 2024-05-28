@@ -14,7 +14,7 @@ export const LogoutButton = () => {
 
   return (
     <li className="nav-item">
-        <button className="btn btn-primary fs-5" onClick={handleLogout}>
+        <button className="btn btn-danger fs-5" onClick={handleLogout}>
             Log Out
         </button>    
     </li>

@@ -49,15 +49,15 @@ export default function Content() {
 
     
     return (
-        <div style={{backgroundImage: `url(${images})`, backgroundSize: 'cover', height: "100vh"}}>
+        <div>
             <Nav></Nav>
             <div className="nav flex-column">
-                <div className="d-flex justified-content-center flex-row m-auto w-25">
+                <div className="d-flex justified-content-center flex-row m-auto w-25 mt-3">
                     <button type="button" className="btn fs-1" onClick={yesterday}>&#8656;</button>
                     <h1 className="fs-2 pt-3 m-0 text-center">{date.toDateString()}</h1>
                     <button type="button" className="btn fs-1" onClick={tomorrow}>&#8658;</button>
                 </div>
-                <div className="d-flex justified-content-center m-auto m-100 mt-3 mb-4">
+                <div className="d-flex justified-content-center m-auto m-100 mt-3 mb-4 p-2">
                     <ul className="nav nav-underline">
                         <li className="nav-item">
                             <a className={`nav-link ${workout ? "active" : ""}`} aria-current="page" href="/workout">Workout</a>
