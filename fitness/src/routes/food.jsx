@@ -1,3 +1,4 @@
+import { tab } from "@testing-library/user-event/dist/tab";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -10,9 +11,6 @@ export default function Food() {
     const [food, setFood] = useState("");
     const [table, addToTable] = useState([]);
     const [tabelVisible, setTableVisible] = useState(false);
-    const [totalPro, setProtein] = useState(0);
-    const [totalCal, setCalories] = useState(0);
-
 
     const [foodList, addToFoodList] = useState({});
 
@@ -65,8 +63,6 @@ export default function Food() {
 
     async function add() {
         setFood("");
-        let protein = 0;
-        let calories = 0;
         const response = await fetch('/api/addFood', {
             method : "POST",
             headers : {'Content-type' : 'application/json'},
@@ -83,10 +79,6 @@ export default function Food() {
             const results = await response.json();
             console.log(results.food);
             addToTable(old => [...old , results.food]);
-            protein += totalPro + results.food.protein_g;
-            calories += totalCal + results.food.calories;
-            setProtein(Math.round(protein));
-            setCalories(Math.round(calories));
             removeSearch();
             setVisible(false);
 
@@ -97,7 +89,6 @@ export default function Food() {
     }
 
     async function deleteFood(e) {
-        console.log(e);
         const response = await fetch('/api/deleteFood', {
             method : "DELETE",
             headers : {'Content-type' : 'application/json'},
@@ -116,8 +107,6 @@ export default function Food() {
 
     useEffect(() => {
         async function getFood() {
-            let protein = 0;
-            let calories = 0;
             const response = await fetch('/api/getFood');
             if(response.ok) {
                 const results = await response.json();
@@ -134,10 +123,6 @@ export default function Food() {
                     } else {
                         console.log(results[userIndex].dates[dateIndex].food);
                         addToTable(results[userIndex].dates[dateIndex].food);
-                        results[userIndex].dates[dateIndex].food.forEach((items) => protein += totalPro + items.protein_g);
-                        results[userIndex].dates[dateIndex].food.forEach((items) => calories += totalCal + items.calories);
-                        setProtein(Math.round(protein));
-                        setCalories(Math.round(calories));
                         setTableVisible(true);
                     }
                 }
@@ -206,21 +191,6 @@ export default function Food() {
                                         ))
                                         :
                                         <tr></tr>
-                                }
-                                {
-                                    tabelVisible ?
-                                        <tr>
-                                            <td><strong>Total</strong></td>
-                                            <td>{totalCal} grams</td>
-                                            <td>{totalPro} grams</td>
-                                            <td></td>
-                                        </tr> :
-                                        <tr>
-                                            <td><strong>Total</strong></td>
-                                            <td>{0} grams</td>
-                                            <td>{0} grams</td>
-                                            <td></td>
-                                        </tr>
                                 }
                             </tbody>
                         </table>

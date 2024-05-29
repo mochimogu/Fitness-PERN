@@ -6,8 +6,6 @@ import LoginButton from "./components/loginButton";
 function App() {
   const { isAuthenticated, isLoading } = useAuth0();
 
-  console.log(isAuthenticated);
-
   if(isLoading) {
     return (
       <div className="fs-4 w-25 m-auto mt-5 text-center">
