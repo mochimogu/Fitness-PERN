@@ -2,8 +2,9 @@
 ## A Guide to Minimal Fitness & Exercise
 ### Links
 [Frontend](https://minifitfrontend.onrender.com) - the actual website <br/>
-[Backend](https://minifitbackend.onrender.com) - methods to call the backend access by looking through the server git repo
+[Backend](https://minifitbackend.onrender.com) - methods to call the backend access by looking through the server git repo <br/>
 
+_Loading the wesbite might take a while since I am using the free tier of Render therefore the service may not be great. Sorry for the inconvience._
 ### Overview
 Minifit is a streamlined platform designed to simplify the process of tracking workouts and diet, catering to users who seek an efficient yet comprehensive approach to managing their fitness goals. This minimalistic tool excels in reducing the complexity often associated with health tracking applications. Users can effortlessly log their daily exercise routines and dietary intake, making it easy to monitor progress without the clutter of extraneous features. Minifit stands out by providing a clear and concise visual representation of food consumption, enabling users to quickly assess their nutritional intake. These visual data aids in understanding patterns and making informed adjustments to one's diet. The platform’s intuitive interface ensures that users can focus on their fitness journey without being overwhelmed by technical details. By consolidating essential functionalities into a user-friendly design, Minifit offers a practical solution for those who desire to maintain a healthy lifestyle with minimal hassle. Whether you're aiming to lose weight, build muscle, or simply keep tabs on your daily nutrition and exercise, Minifit provides the necessary tools in a straightforward and accessible manner. Its emphasis on minimalism ensures that tracking health metrics is not only efficient but also enjoyable, encouraging consistency and long-term commitment to personal fitness goals. In essence, Minifit is an ideal companion for anyone looking to streamline their health tracking process while gaining insightful data on their dietary habits.
 
