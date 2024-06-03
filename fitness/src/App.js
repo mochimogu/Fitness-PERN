@@ -16,6 +16,8 @@ function App() {
     )
   }
 
+  console.log(isAuthenticated);
+
   return (
     isAuthenticated ? (
     <div>
