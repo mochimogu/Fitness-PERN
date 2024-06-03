@@ -45,6 +45,28 @@ const routes = createBrowserRouter([
     element : <LoginButton/>,
     errorElement : <Error/>
   },
+  {
+    path : '/index.html',
+    element : <App/>,
+    errorElement : <Error/>,
+    children : [
+      {
+        path : '/workout',
+        element : <Workout/>,
+        errorElement : <Error/>
+      },
+      {
+        path : '/data',
+        element : <Data/>,
+        errorElement : <Error/>
+      },
+      {
+        path : '/food',
+        element : <Food/>,
+        errorElement : <Error/>
+      },
+    ]
+  }
 ])
 
 // console.log(domain, clientId);
