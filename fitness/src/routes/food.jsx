@@ -63,7 +63,7 @@ export default function Food() {
 
     async function add() {
         setFood("");
-        const response = await fetch('/api/addFood', {
+        const response = await fetch(process.env.REACT_APP_API_DOMAIN + '/api/addFood', {
             method : "POST",
             headers : {'Content-type' : 'application/json'},
             body : JSON.stringify(
@@ -89,7 +89,7 @@ export default function Food() {
     }
 
     async function deleteFood(e) {
-        const response = await fetch('/api/deleteFood', {
+        const response = await fetch(process.env.REACT_APP_API_DOMAIN +'/api/deleteFood', {
             method : "DELETE",
             headers : {'Content-type' : 'application/json'},
             body : JSON.stringify({'id' : e, 'user' : info.username, 'date' : info.date})
@@ -107,7 +107,7 @@ export default function Food() {
 
     useEffect(() => {
         async function getFood() {
-            const response = await fetch('/api/getFood');
+            const response = await fetch(process.env.REACT_APP_API_DOMAIN + '/api/getFood');
             if(response.ok) {
                 const results = await response.json();
                 // console.log(results);

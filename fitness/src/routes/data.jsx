@@ -17,7 +17,7 @@ export default function Data() {
 
     useEffect(() => {
         async function getFoodData() {
-            const response = await fetch('/api/getFoodData');
+            const response = await fetch(process.env.REACT_APP_API_DOMAIN + '/api/getFoodData');
             if(response.ok) {
                 const results = await response.json();
                 // console.log(results.data)

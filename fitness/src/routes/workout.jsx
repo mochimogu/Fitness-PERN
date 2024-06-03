@@ -25,7 +25,7 @@ export default function Workout() {
                 'date' : info.date
             }
     
-            const response = await fetch('/api/addExercise', {
+            const response = await fetch(process.env.REACT_APP_API_DOMAIN + '/api/addExercise', {
                 method : "POST",
                 headers : {"Content-type" : "application/json"},
                 body : JSON.stringify(sending)
@@ -49,7 +49,7 @@ export default function Workout() {
 
     async function removeExercise(e) {
         console.log(e);
-        const response = await fetch("/api/deleteExercise", {
+        const response = await fetch(process.env.REACT_APP_API_DOMAIN + "/api/deleteExercise", {
             method : "DELETE",
             headers : {"Content-type" : "application/json"},
             body : JSON.stringify({id : e, user : info.username, date : info.date})
@@ -74,7 +74,7 @@ export default function Workout() {
 
     useEffect(() => {
         async function getData() {
-            const response = await fetch('/api/getExercise');
+            const response = await fetch(process.env.REACT_APP_API_DOMAIN + '/api/getExercise');
 
             if(response.ok) {
                 const results = await response.json();
