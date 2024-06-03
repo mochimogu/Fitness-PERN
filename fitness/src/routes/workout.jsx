@@ -48,7 +48,7 @@ export default function Workout() {
     }
 
     async function removeExercise(e) {
-        console.log(e);
+        // console.log(e);
         const response = await fetch(process.env.REACT_APP_API_DOMAIN + "/api/deleteExercise", {
             method : "DELETE",
             headers : {"Content-type" : "application/json"},
@@ -57,7 +57,7 @@ export default function Workout() {
 
         if(response.ok) {
             const results = await response.json();
-            console.log(results);
+            // console.log(results);
             const updatedExerciseList = exerciseList.filter(items => items.exercise !== results.exercise);
             addToList(updatedExerciseList);
         } else {
@@ -78,7 +78,7 @@ export default function Workout() {
 
             if(response.ok) {
                 const results = await response.json();
-                console.log(results);
+                // console.log(results);
                 const userIndex = results.findIndex(item => item.users === info.username);
                 if(userIndex !== -1) {
                     const dateIndex = results[userIndex].dates.findIndex(item => item.date === info.date);

@@ -51,7 +51,7 @@ export default function Food() {
 
         if(response.ok) {
             const results = await response.json();
-            console.log(results.items[0]);
+            // console.log(results.items[0]);
             displayInfo(results.items[0])
             setVisible(true);
             addToFoodList(results.items[0]);
@@ -77,7 +77,7 @@ export default function Food() {
 
         if(response.ok) {
             const results = await response.json();
-            console.log(results.food);
+            // console.log(results.food);
             addToTable(old => [...old , results.food]);
             removeSearch();
             setVisible(false);
@@ -97,7 +97,7 @@ export default function Food() {
 
         if(response.ok) {
             const results = await response.json();
-            console.log(results);
+            // console.log(results);
             const updatedTable = table.filter(items => items.name !== results.id);
             addToTable(updatedTable);
         } else {
@@ -121,7 +121,7 @@ export default function Food() {
                         console.log('error - either not found or new date');
                         setTableVisible(false);
                     } else {
-                        console.log(results[userIndex].dates[dateIndex].food);
+                        // console.log(results[userIndex].dates[dateIndex].food);
                         addToTable(results[userIndex].dates[dateIndex].food);
                         setTableVisible(true);
                     }

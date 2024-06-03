@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (request, response) => {
-    response.status(200).send("<h1>WELCOME TO THE BACKEND</h1>")
+    response.status(200).send(`<h1>WELCOME TO THE BACKEND</h1><a href=${'https://github.com/mochimogu/fitness'}>Github Code for the Backend</a>`)
 })
 
 //EXERCISE API

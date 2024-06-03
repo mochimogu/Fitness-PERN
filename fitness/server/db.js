@@ -32,7 +32,7 @@ async function insertExercise(user, data) {
 
         const reply = await client.query("SELECT * FROM exercisedb");
         const userIndex = reply.rows.findIndex(items => items.users === user);
-        console.log(userIndex);
+        // console.log(userIndex);
         //CHECK IF THE USER IS BRAND NEW
         if(userIndex !== -1) {
 
