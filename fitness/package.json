@@ -44,7 +44,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080/",
+  "proxy": "https://minifitfrontend.onrender.com",
   "devDependencies": {
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.0"
