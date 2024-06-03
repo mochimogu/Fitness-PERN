@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const { 
     getAllData, 
@@ -14,6 +15,11 @@ app.listen(PORT, () => {
     console.log(`Server Start on ${PORT}`);
 })
 app.use(express.json());
+app.use(cors());
+
+app.get('/', (request, response) => {
+    response.status(200).send("<h1>WELCOME TO THE BACKEND</h1>")
+})
 
 //EXERCISE API
 app.post("/api/addExercise", async (request, response) => {
